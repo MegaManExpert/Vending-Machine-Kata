@@ -1,0 +1,4 @@
+C:\Users\MarcusM\Documents\Visual Studio 2010\Projects\VendingMachineKata\VendingMachineKata\bin\Debug\VendingMachineKata.exe
+C:\Users\MarcusM\Documents\Visual Studio 2010\Projects\VendingMachineKata\VendingMachineKata\bin\Debug\VendingMachineKata.pdb
+C:\Users\MarcusM\Documents\Visual Studio 2010\Projects\VendingMachineKata\VendingMachineKata\obj\x86\Debug\VendingMachineKata.exe
+C:\Users\MarcusM\Documents\Visual Studio 2010\Projects\VendingMachineKata\VendingMachineKata\obj\x86\Debug\VendingMachineKata.pdb
