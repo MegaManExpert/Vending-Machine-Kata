@@ -50,43 +50,42 @@ namespace VendingMachineTests
         [TestMethod]
         public void coinValuesReturned()
         {
-            Assert.AreEqual<int?>(coinModel.getCoinValue(insertedPenny), 1);
-            Assert.AreEqual<int?>(coinModel.getCoinValue(insertedNickle), 5);
-            Assert.AreEqual<int?>(coinModel.getCoinValue(insertedDime), 10);
-            Assert.AreEqual<int?>(coinModel.getCoinValue(insertedQuarter), 25);
+            Assert.AreEqual<int?>(1, coinModel.getCoinValue(insertedPenny));
+            Assert.AreEqual<int?>(5, coinModel.getCoinValue(insertedNickle));
+            Assert.AreEqual<int?>(10, coinModel.getCoinValue(insertedDime));
+            Assert.AreEqual<int?>(25, coinModel.getCoinValue(insertedQuarter));
         }
 
         [TestMethod]
         public void displayValueOfInsertedCoins()
         {
-            Assert.AreEqual<string>(machineContorls.currentCoinTotal(), "INSERT COIN");
+            Assert.AreEqual("INSERT COIN", machineContorls.currentCoinTotal());
             machineContorls.insertCoin(insertedPenny);
-            Assert.AreEqual<string>(machineContorls.currentCoinTotal(), "INSERT COIN");
-            machineContorls.insertCoin(insertedNickle);            
-            Assert.AreEqual<string>(machineContorls.currentCoinTotal(), "0.05");
+            Assert.AreEqual("INSERT COIN", machineContorls.currentCoinTotal());
+            machineContorls.insertCoin(insertedNickle);
+            Assert.AreEqual("0.05", machineContorls.currentCoinTotal());
             machineContorls.insertCoin(insertedDime);
-            Assert.AreEqual<string>(machineContorls.currentCoinTotal(), "0.15");
+            Assert.AreEqual("0.15", machineContorls.currentCoinTotal());
             machineContorls.insertCoin(insertedQuarter);
-            Assert.AreEqual<string>(machineContorls.currentCoinTotal(), "0.40");
+            Assert.AreEqual("0.40", machineContorls.currentCoinTotal());
         }
 
         [TestMethod]
         public void showThatCoinsReturned()
         {
-            Assert.AreEqual<string>(machineContorls.coinsInReturn(), "");
+            Assert.AreEqual("", machineContorls.coinsInReturn());
             machineContorls.insertCoin(insertedPenny);
-            Assert.AreEqual<string>(machineContorls.coinsInReturn().TrimEnd(), "1:Penny");
+            Assert.AreEqual("1:Penny", machineContorls.coinsInReturn().TrimEnd());
             machineContorls.insertCoin(insertedNickle);
-            Assert.AreEqual<string>(machineContorls.coinsInReturn().TrimEnd(), "1:Penny");
+            Assert.AreEqual("1:Penny", machineContorls.coinsInReturn().TrimEnd());
             machineContorls.insertCoin(insertedDime);
-            Assert.AreEqual<string>(machineContorls.coinsInReturn().TrimEnd(), "1:Penny");
+            Assert.AreEqual("1:Penny", machineContorls.coinsInReturn().TrimEnd());
             machineContorls.insertCoin(insertedQuarter);
-            Assert.AreEqual<string>(machineContorls.coinsInReturn().TrimEnd(), "1:Penny");
+            Assert.AreEqual("1:Penny", machineContorls.coinsInReturn().TrimEnd());
             machineContorls.insertCoin(insertedPenny);
-            Assert.AreEqual<string>(machineContorls.coinsInReturn().TrimEnd(), "2:Penny");
+            Assert.AreEqual("2:Penny", machineContorls.coinsInReturn().TrimEnd());
             machineContorls.insertCoin(insertedFakeCoin);
-            string test = machineContorls.coinsInReturn().TrimEnd();
-            Assert.AreEqual<string>(machineContorls.coinsInReturn().TrimEnd(), "2:Penny 1:Quarter");
+            Assert.AreEqual("2:Penny 1:Quarter", machineContorls.coinsInReturn().TrimEnd());
         }
     }
 }

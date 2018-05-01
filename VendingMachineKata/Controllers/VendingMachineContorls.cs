@@ -10,6 +10,8 @@ namespace VendingMachineKata.Controllers
     public class VendingMachineContorls
     {
         private Coins coinModel = new Coins();
+        private Products productModel = new Products();
+
         private VendingMachineDisplay coinDisplay = new VendingMachineDisplay();
         private decimal currentlyHeldValue = 0.0m;
         private List<string> ReturnedCoins = new List<string>();
@@ -42,6 +44,25 @@ namespace VendingMachineKata.Controllers
                 coinReturn += returns.cnt + ":" + returns.name + " ";
             }
             return coinReturn;
+        }
+
+        public string pressButtonCode(string code)
+        {
+            string selectionText = "PRICE: ";
+            //Add section to get "THANK YOU"
+            List<Product> selectedProduct = productModel.getProduct(code);
+            if (selectedProduct.Count > 0) return selectionText + selectedProduct.First().getCost();
+            return "INVALID/SELECT";
+        }
+
+        public decimal getCurrentHeldValue()
+        {
+            return this.currentlyHeldValue;
+        }
+
+        public string getProductInfo(Product product)
+        {
+            return product.getName() + ": $" + product.getCost();
         }
     }
 }

@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="Models\Coin.cs" />
     <Compile Include="Models\Coins.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Products.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\VendingMachineContorls.cs" />
