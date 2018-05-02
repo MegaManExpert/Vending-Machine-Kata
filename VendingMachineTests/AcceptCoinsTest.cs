@@ -18,7 +18,7 @@ namespace VendingMachineTests
         Coin insertedQuarter = new Coin(0.1823, 0.955, "Quarter");
 
         Coin insertedFakeCoin = new Coin(0.1825, 0.955, "Quarter");
-        VendingMachineContorls machineContorls = new VendingMachineContorls();
+        VendingMachineControls machineContorls = new VendingMachineControls();
         Coins coinModel = new Coins();
         VendingMachineDisplay coinDisplay = new VendingMachineDisplay();
 

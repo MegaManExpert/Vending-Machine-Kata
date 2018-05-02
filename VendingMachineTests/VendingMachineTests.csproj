@@ -46,8 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceptCoinsTest.cs" />
+    <Compile Include="ExactChangeTest.cs" />
+    <Compile Include="MakeChangeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReturnedCoinsTest.cs" />
     <Compile Include="SelectProductTest.cs" />
+    <Compile Include="SoldOutProductTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VendingMachineKata\VendingMachineKata.csproj">

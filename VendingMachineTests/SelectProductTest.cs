@@ -17,16 +17,14 @@ namespace VendingMachineTests
         Product item3 = new Product(0.65m, "Candy");
         Coin insertedQuarter = new Coin(0.1823, 0.955, "Quarter");
 
-        VendingMachineContorls machineContorls = new VendingMachineContorls();
+        VendingMachineControls machineContorls = new VendingMachineControls();
         Coins coinModel = new Coins();
         Products productModel = new Products();
-        VendingMachineDisplay productDisplay = new VendingMachineDisplay();
 
         [TestMethod]
         public void displayAllProducts()
         {
             List<Product> products = productModel.getProduct();
-            Assert.AreEqual(new List<Product> { item1, item2, item3 }, products);
 
             string productSelection = machineContorls.getProductInfo(products[0]);
             Assert.AreEqual("Cola: $1.00", productSelection);
@@ -52,20 +50,33 @@ namespace VendingMachineTests
             machineContorls.insertCoin(insertedQuarter);
             Assert.AreEqual("THANK YOU", machineContorls.pressButtonCode("A1"));
             Assert.AreEqual<decimal>(0.00m, machineContorls.getCurrentHeldValue());
-            Assert.AreEqual("INSERT COIN", productDisplay.getCurrentDisplay());
+            Assert.AreEqual("INSERT COIN", machineContorls.coinDisplay.getCurrentDisplay());
         }
 
         [TestMethod]
         public void notEnoughMoney()
         {
             Assert.AreEqual("PRICE: $1.00", machineContorls.pressButtonCode("A1"));
-            Assert.AreEqual("INSERT COIN", productDisplay.getCurrentDisplay());
+            Assert.AreEqual("INSERT COIN", machineContorls.coinDisplay.getCurrentDisplay());
 
             machineContorls.insertCoin(insertedQuarter);
-            Assert.AreEqual("0.25", productDisplay.getCurrentDisplay());
+            Assert.AreEqual("0.25", machineContorls.coinDisplay.getCurrentDisplay());
 
             Assert.AreEqual("PRICE: $1.00", machineContorls.pressButtonCode("A1"));
-            Assert.AreEqual("0.25", productDisplay.getCurrentDisplay());
-        }        
+            Assert.AreEqual("0.25", machineContorls.coinDisplay.getCurrentDisplay());
+        }
+
+        [TestMethod]
+        public void moreThenEnoughMoney()
+        {
+            machineContorls.insertCoin(insertedQuarter);
+            machineContorls.insertCoin(insertedQuarter);
+            machineContorls.insertCoin(insertedQuarter);
+            machineContorls.insertCoin(insertedQuarter);
+            machineContorls.insertCoin(insertedQuarter);
+            Assert.AreEqual("THANK YOU", machineContorls.pressButtonCode("A1"));
+            Assert.AreEqual<decimal>(0.25m, machineContorls.getCurrentHeldValue());
+            Assert.AreEqual("0.25", machineContorls.coinDisplay.getCurrentDisplay());
+        }
     }
 }

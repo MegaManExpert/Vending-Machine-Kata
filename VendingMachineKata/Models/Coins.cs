@@ -31,5 +31,18 @@ namespace VendingMachineKata.Models
             if (coinsUnitedStates.ContainsKey(coin)) return BannedCoins.Contains(coin);
             return false;
         }
+
+        public Dictionary<Coin, int> getValidCoinList(string coinListName)
+        {
+            if (coinListName.Equals("UnitedStates"))
+            {
+                foreach (Coin banndedCoin in BannedCoins)
+                {
+                    coinsUnitedStates.Remove(banndedCoin);
+                }
+                return coinsUnitedStates;
+            }
+            return null;            
+        }
     }
 }

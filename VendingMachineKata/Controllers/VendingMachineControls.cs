@@ -7,12 +7,13 @@ using VendingMachineKata.Views;
 
 namespace VendingMachineKata.Controllers
 {
-    public class VendingMachineContorls
+    public class VendingMachineControls
     {
         private Coins coinModel = new Coins();
         private Products productModel = new Products();
 
-        private VendingMachineDisplay coinDisplay = new VendingMachineDisplay();
+        public VendingMachineDisplay coinDisplay = new VendingMachineDisplay();
+        private VendingMachineChangeControls coinChange = new VendingMachineChangeControls();
         private decimal currentlyHeldValue = 0.0m;
         private List<string> ReturnedCoins = new List<string>();
 
@@ -48,11 +49,32 @@ namespace VendingMachineKata.Controllers
 
         public string pressButtonCode(string code)
         {
-            string selectionText = "PRICE: ";
-            //Add section to get "THANK YOU"
+            string selectionText = "PRICE: $";
             List<Product> selectedProduct = productModel.getProduct(code);
-            if (selectedProduct.Count > 0) return selectionText + selectedProduct.First().getCost();
-            return "INVALID/SELECT";
+            if (selectedProduct.Count <= 0) return "INVALID/SELECT";
+
+            decimal productPrice = selectedProduct.First().getCost();
+            if (checkFundsForBuying(currentlyHeldValue, productPrice))
+            {
+                currentlyHeldValue -= productPrice;
+                coinDisplay.updateCurrentDisplay("INSERT COIN");
+                if (currentlyHeldValue > 0) makeChange();
+                return "THANK YOU";
+            }
+            return selectionText + productPrice;            
+        }
+
+        private bool checkFundsForBuying(decimal funds, decimal price)
+        {
+            if (funds >= price) return true;
+            return false;
+        }
+
+        private void makeChange()
+        {
+            coinDisplay.updateCurrentDisplay(currentlyHeldValue.ToString());
+            Dictionary<Coin,int> coinList = coinModel.getValidCoinList("UnitedStates");
+            ReturnedCoins.AddRange(coinChange.breakChange(coinList, (int)(currentlyHeldValue * 100)));
         }
 
         public decimal getCurrentHeldValue()
