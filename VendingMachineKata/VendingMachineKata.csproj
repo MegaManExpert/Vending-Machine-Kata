@@ -46,6 +46,7 @@
     <Compile Include="Controllers\VendingMachineChangeControls.cs" />
     <Compile Include="Models\Coin.cs" />
     <Compile Include="Models\Coins.cs" />
+    <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Products.cs" />
     <Compile Include="Program.cs" />

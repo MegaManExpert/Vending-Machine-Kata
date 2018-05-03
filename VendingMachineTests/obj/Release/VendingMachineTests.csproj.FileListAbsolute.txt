@@ -1,0 +1,7 @@
+C:\Users\MarcusM\documents\visual studio 2010\Projects\VendingMachineKata\VendingMachineTests\bin\Release\VendingMachineTests.dll
+C:\Users\MarcusM\documents\visual studio 2010\Projects\VendingMachineKata\VendingMachineTests\bin\Release\VendingMachineTests.pdb
+C:\Users\MarcusM\documents\visual studio 2010\Projects\VendingMachineKata\VendingMachineTests\bin\Release\VendingMachineKata.exe
+C:\Users\MarcusM\documents\visual studio 2010\Projects\VendingMachineKata\VendingMachineTests\bin\Release\VendingMachineKata.pdb
+C:\Users\MarcusM\documents\visual studio 2010\Projects\VendingMachineKata\VendingMachineTests\obj\Release\VendingMachineTests.csprojResolveAssemblyReference.cache
+C:\Users\MarcusM\documents\visual studio 2010\Projects\VendingMachineKata\VendingMachineTests\obj\Release\VendingMachineTests.dll
+C:\Users\MarcusM\documents\visual studio 2010\Projects\VendingMachineKata\VendingMachineTests\obj\Release\VendingMachineTests.pdb

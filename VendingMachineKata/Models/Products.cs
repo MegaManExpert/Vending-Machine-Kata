@@ -15,22 +15,25 @@ namespace VendingMachineKata.Models
             {"D4", new Product(0.75m, "Cookies")}
         };
 
-        private Dictionary<string, int> vendingProductLevel = new Dictionary<string, int> {
-            {"A1", 2},
-            {"B2", 1},
-            {"C3", 5},
-            {"D4", 0}
-        };
+        public List<string> getProducts()
+        {
+            List<string> productList = new List<string>();
+            foreach (KeyValuePair<string, Product> product in vendingProducts)
+            {
+                productList.Add(product.Key + " - " + product.Value.getName() + ": $" + product.Value.getCost());
+            }
+            return productList;
+        }
 
         public List<Product> getProduct()
         {
-            return getProduct("");
+            return getProduct("All");
         }
 
         public List<Product> getProduct(string code)
         {
             List<Product> listProducts = new List<Product>();
-            if (code.Equals(""))
+            if (code.Equals("All"))
             {
                 foreach (Product p in vendingProducts.Values)
                 {
@@ -43,16 +46,6 @@ namespace VendingMachineKata.Models
             }
 
             return listProducts;
-        }
-
-        public int getProductLevel(string keyCode)
-        {
-            return vendingProductLevel[keyCode];
-        }
-
-        public void setProductLevel(string keyCode, int productLevel)
-        {
-            vendingProductLevel[keyCode] = productLevel;
         }
     }
 }

@@ -1,0 +1,5 @@
+C:\Users\MarcusM\documents\visual studio 2010\Projects\VendingMachineKata\VendingMachineKata\bin\Release\VendingMachineKata.exe
+C:\Users\MarcusM\documents\visual studio 2010\Projects\VendingMachineKata\VendingMachineKata\bin\Release\VendingMachineKata.pdb
+C:\Users\MarcusM\documents\visual studio 2010\Projects\VendingMachineKata\VendingMachineKata\obj\x86\Release\VendingMachineKata.exe
+C:\Users\MarcusM\documents\visual studio 2010\Projects\VendingMachineKata\VendingMachineKata\obj\x86\Release\VendingMachineKata.pdb
+C:\Users\MarcusM\Documents\Visual Studio 2010\Projects\VendingMachineKata\VendingMachineKata\obj\x86\Release\VendingMachineKata.csprojResolveAssemblyReference.cache

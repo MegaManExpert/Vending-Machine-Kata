@@ -9,8 +9,21 @@ namespace VendingMachineKata.Controllers
 {
     class VendingMachineChangeControls
     {
-        //Convert current remaning quantity to full cents 
-        public List<string> breakChange(Dictionary<Coin, int> usableCoins, int currentQuantity)
+        // ******************************************************************************************************
+        // | Input:                                                                                             |
+        // | -- usableCoins: List of usable coins that have been filtered by both Banned and OutOfStock         |
+        // | -- currentQuantity: Full value of the Cost/ReturnedCoin at the "Cent" level as the target to meet  |
+        // | Output:                                                                                            |
+        // | -- Return the coin type as the key with the number of coins for that key as the value              |
+        // | -- I.E "Dime",5 = 5 dimes are returned                                                             |
+        // |                                                                                                    |
+        // | This function tries to fit the largest value object in first and tries to return you the most      |
+        // | efficient backing possible for the given target. If it can't fill the target, it returns a null    |
+        // |                                                                                                    |
+        // | This function was recycled from an old question/algorithm from my stackoverflow:                   |
+        // | https://stackoverflow.com/questions/20107574/modified-knapsack-subset-sum-with-same-weight-values  |
+        // ******************************************************************************************************
+        public Dictionary<Coin, int> breakChange(Dictionary<Coin, int> usableCoins, int currentQuantity)
         {
             //Split the key and value up for later remerging
             List<Coin> arrCoins = new List<Coin>();
@@ -82,7 +95,7 @@ namespace VendingMachineKata.Controllers
                     }
                 }
 
-                if (iRemaining == 0) return convertToListStringCoin(hmBundleToQuantity);
+                if (iRemaining == 0) return hmBundleToQuantity;
 
                 // Otherwise… We have nothing left on the stack we’ll check
                 // back to the beginning for non-zero values
@@ -111,7 +124,8 @@ namespace VendingMachineKata.Controllers
             return null;
         }
 
-        private List<string> convertToListStringCoin(Dictionary<Coin, int> hmCoinCollection)
+        //Convert the coins(Key) to a list for further aggregation by the number of that coin(Value)
+        public List<string> convertToListStringCoin(Dictionary<Coin, int> hmCoinCollection)
         {
             List<string> arrListOfCoinsReturned = new List<string>();
             foreach (KeyValuePair<Coin, int> coinValue in hmCoinCollection)

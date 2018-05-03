@@ -9,6 +9,7 @@ namespace VendingMachineKata.Controllers
 {
     public class VendingMachineControls
     {
+        private Inventory vendingInventory = new Inventory();
         private Coins coinModel = new Coins();
         private Products productModel = new Products();
 
@@ -17,6 +18,11 @@ namespace VendingMachineKata.Controllers
         private decimal currentlyHeldValue = 0.0m;
         private List<string> ReturnedCoins = new List<string>();
         private List<Coin> insertedCoins = new List<Coin>();
+
+        public VendingMachineControls()
+        {
+            coinModel.setCoinInventory(vendingInventory);
+        }
 
         public string currentCoinTotal()
         {
@@ -30,6 +36,7 @@ namespace VendingMachineKata.Controllers
             {
                 this.currentlyHeldValue += ((decimal)coinValue.Value / 100);
                 coinDisplay.updateCurrentDisplay(currentlyHeldValue.ToString());
+                vendingInventory.addCoinsToInventory(coin);
                 insertedCoins.Add(coin);
             }
             else
@@ -39,11 +46,13 @@ namespace VendingMachineKata.Controllers
         }
 
         public string pressCoinReturn()
-        {            
+        {
             makeChange();
             currentlyHeldValue = 0.0m;
             coinDisplay.updateCurrentDisplay("INSERT COIN");
-            return coinsInReturn();
+            string returnedCoins = coinsInReturn();
+            ReturnedCoins = new List<string>();
+            return returnedCoins;
         }
 
         public string coinsInReturn()
@@ -53,7 +62,7 @@ namespace VendingMachineKata.Controllers
             foreach(var returns in grpReturns)
             {
                 coinReturn += returns.cnt + ":" + returns.name + " ";
-            }
+            }            
             return coinReturn;
         }
 
@@ -64,17 +73,17 @@ namespace VendingMachineKata.Controllers
             if (selectedProduct.Count <= 0) return "INVALID/SELECT";
 
             decimal productPrice = selectedProduct.First().getCost();
-            if (productModel.getProductLevel(code) <= 0)
-            {
-                return "SOLD OUT";
-            }
+            if (vendingInventory.getProductLevel(code) <= 0) return "SOLD OUT";
+            if (checkForExactChange()) return "EXACT CHANGE ONLY";
             if (checkFundsForBuying(currentlyHeldValue, productPrice))
-            {
+            {                
                 currentlyHeldValue -= productPrice;
+                vendingInventory.addCoinsToInventory(insertedCoins);
+                insertedCoins = new List<Coin>();
                 coinDisplay.updateCurrentDisplay("INSERT COIN");
                 if (currentlyHeldValue > 0) makeChange();
-                int itemBought = productModel.getProductLevel(code);
-                productModel.setProductLevel(code,--itemBought);
+                int itemBought = vendingInventory.getProductLevel(code);
+                vendingInventory.setProductLevel(code, --itemBought);
                 return "THANK YOU";
             }
             return selectionText + productPrice;            
@@ -90,7 +99,17 @@ namespace VendingMachineKata.Controllers
         {
             coinDisplay.updateCurrentDisplay(currentlyHeldValue.ToString());
             Dictionary<Coin,int> coinList = coinModel.getValidCoinList("UnitedStates");
-            ReturnedCoins.AddRange(coinChange.breakChange(coinList, (int)(currentlyHeldValue * 100)));
+            Dictionary<Coin, int> returnedCoins = coinChange.breakChange(coinList, (int)(currentlyHeldValue * 100));
+            List<Coin> removedCoins = new List<Coin>();
+            foreach (KeyValuePair<Coin, int> coins in returnedCoins)
+            {
+                for (int i = 0; i < coins.Value; i++)
+                {
+                    removedCoins.Add(coins.Key);
+                }
+            }
+            vendingInventory.removeCoinsFromInventory(removedCoins);
+            ReturnedCoins.AddRange(coinChange.convertToListStringCoin(returnedCoins));
         }
 
         public decimal getCurrentHeldValue()
@@ -98,25 +117,43 @@ namespace VendingMachineKata.Controllers
             return this.currentlyHeldValue;
         }
 
+        public List<string> getHeldProducts()
+        {
+            return this.productModel.getProducts();
+        }
+
         public string getProductInfo(Product product)
         {
             return product.getName() + ": $" + product.getCost();
         }
 
-        public void emptyCoinInvintory(List<Coin> coinRemoval)
-        {
-            coinModel.removeCoinsFromInventory(coinRemoval);
-        }
-
-        public void checkForExactChange()
+        public bool checkForExactChange()
         {
             Dictionary<Coin,int> coinList = coinModel.getValidCoinList("UnitedStates");
+            bool useExact = false;
             foreach(Product product in productModel.getProduct())
             {
-                List<string> ppp = coinChange.breakChange(coinList, (int)(product.getCost() * 100));
-                if(ppp == null) coinDisplay.updateCurrentDisplay("EXACT CHANGE ONLY");
+                Dictionary<Coin,int> coinCheck = coinChange.breakChange(coinList, (int)(product.getCost() * 100));
+
+                if (currentlyHeldValue > 0m)
+                {
+                    coinDisplay.updateCurrentDisplay(currentlyHeldValue.ToString());
+                    if (coinCheck == null) useExact = true;
+                }
+                else if (coinCheck == null)
+                {
+                    coinDisplay.updateCurrentDisplay("EXACT CHANGE ONLY");
+                    useExact = true;
+                    break;
+                }
                 else coinDisplay.updateCurrentDisplay("INSERT COIN");
             }
+            return useExact;
+        }
+
+        public void emptyCoinInvintory(List<Coin> coinRemoval)
+        {
+            vendingInventory.removeCoinsFromInventory(coinRemoval);
         }
     }
 }

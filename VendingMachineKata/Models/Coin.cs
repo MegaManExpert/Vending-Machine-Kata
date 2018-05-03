@@ -25,12 +25,12 @@ namespace VendingMachineKata.Models
         public override bool Equals(Object obj)
         {
             Coin other = obj as Coin;
-            return this.weight == other.weight && this.diameter == other.diameter && this.name == other.name;
+            return this.weight == other.weight && this.diameter == other.diameter;
         }
 
         public override int GetHashCode()
         {
-            return this.weight.GetHashCode() + this.diameter.GetHashCode() + this.name.GetHashCode();
+            return this.weight.GetHashCode() + this.diameter.GetHashCode();
         }
     }
 }
