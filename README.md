@@ -29,7 +29,7 @@ Click on "Start Debugging" button or F5 to build and run the application
 ### Requirements:
 Just follow the directions on the screen by using the diffrent coins inputs, code buttons, or coin return.
 
-####List of valid commands:
+##List of valid commands:
  * "Penny": Adds a single cent to the machine.
  * "Nickle": Adds a five cents to the machine.
  * "Dime": Adds a five cents to the machine.
