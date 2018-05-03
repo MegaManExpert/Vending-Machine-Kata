@@ -38,7 +38,7 @@ namespace VendingMachineTests
         public void selectProduct()
         {            
             Assert.AreEqual("PRICE: $1.00", machineContorls.pressButtonCode("A1"));
-            Assert.AreEqual("INVALID/SELECT", machineContorls.pressButtonCode("D4"));
+            Assert.AreEqual("INVALID/SELECT", machineContorls.pressButtonCode("C4"));
         }
 
         [TestMethod]

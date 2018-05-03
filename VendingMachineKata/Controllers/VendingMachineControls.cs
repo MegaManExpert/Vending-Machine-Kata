@@ -16,6 +16,7 @@ namespace VendingMachineKata.Controllers
         private VendingMachineChangeControls coinChange = new VendingMachineChangeControls();
         private decimal currentlyHeldValue = 0.0m;
         private List<string> ReturnedCoins = new List<string>();
+        private List<Coin> insertedCoins = new List<Coin>();
 
         public string currentCoinTotal()
         {
@@ -29,11 +30,20 @@ namespace VendingMachineKata.Controllers
             {
                 this.currentlyHeldValue += ((decimal)coinValue.Value / 100);
                 coinDisplay.updateCurrentDisplay(currentlyHeldValue.ToString());
+                insertedCoins.Add(coin);
             }
             else
             {
                 ReturnedCoins.Add(coin.name);
             }
+        }
+
+        public string pressCoinReturn()
+        {            
+            makeChange();
+            currentlyHeldValue = 0.0m;
+            coinDisplay.updateCurrentDisplay("INSERT COIN");
+            return coinsInReturn();
         }
 
         public string coinsInReturn()
@@ -54,11 +64,17 @@ namespace VendingMachineKata.Controllers
             if (selectedProduct.Count <= 0) return "INVALID/SELECT";
 
             decimal productPrice = selectedProduct.First().getCost();
+            if (productModel.getProductLevel(code) <= 0)
+            {
+                return "SOLD OUT";
+            }
             if (checkFundsForBuying(currentlyHeldValue, productPrice))
             {
                 currentlyHeldValue -= productPrice;
                 coinDisplay.updateCurrentDisplay("INSERT COIN");
                 if (currentlyHeldValue > 0) makeChange();
+                int itemBought = productModel.getProductLevel(code);
+                productModel.setProductLevel(code,--itemBought);
                 return "THANK YOU";
             }
             return selectionText + productPrice;            
@@ -85,6 +101,22 @@ namespace VendingMachineKata.Controllers
         public string getProductInfo(Product product)
         {
             return product.getName() + ": $" + product.getCost();
+        }
+
+        public void emptyCoinInvintory(List<Coin> coinRemoval)
+        {
+            coinModel.removeCoinsFromInventory(coinRemoval);
+        }
+
+        public void checkForExactChange()
+        {
+            Dictionary<Coin,int> coinList = coinModel.getValidCoinList("UnitedStates");
+            foreach(Product product in productModel.getProduct())
+            {
+                List<string> ppp = coinChange.breakChange(coinList, (int)(product.getCost() * 100));
+                if(ppp == null) coinDisplay.updateCurrentDisplay("EXACT CHANGE ONLY");
+                else coinDisplay.updateCurrentDisplay("INSERT COIN");
+            }
         }
     }
 }
